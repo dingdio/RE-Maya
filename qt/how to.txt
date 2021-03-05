@@ -1,0 +1,1 @@
+F:\Anaconda3\python -m PyQt5.uic.pyuic -x "RE_engine.ui" -o "RE_engine.py"

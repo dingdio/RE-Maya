@@ -1,0 +1,6 @@
+*.pyc
+.vscode/*
+
+# Local History for Visual Studio Code
+.history/
+src/old/
