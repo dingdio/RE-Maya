@@ -22,6 +22,7 @@ from bin_helpers import (
                         wRot)
 
 bIsMotFile = False
+DEBUG = False
 boneHeadersIdx = 0 #1st mot file with bone list
 #/* ----DEFINITIONS---- */
 #define TRANSLATION (1)
@@ -565,8 +566,6 @@ class FrameRot:
 class FrameDataRot:
     def __init__(self, f, MOT, keyCount, flags, frameDataOffs, unpackDataOffs, frameIndOffs, CUR_BONE_NAME):
         start = MOT.start
-        if CUR_BONE_NAME == "r_arm_radius": #and flags != 2359570:
-            print (CUR_BONE_NAME)
         #uint32 keyCount, uint32 flags, uint64 frameDataOffs, uint64 unpackDataOffs, uint64 frameIndOffs
         if (frameIndOffs > 0):
             f.seek(frameIndOffs);
@@ -654,7 +653,7 @@ class Tracks:
             self.ScaleTypeString = get_scale_type(self.ScaleType, MOT)
 
         if hasattr(self,"RotationTypeString" ):
-            print (self.name +" : " +self.RotationTypeString)
+            if DEBUG: print (self.name +" : " +self.RotationTypeString);
             if hasattr(MOT,"RotationTypes" ):
                 if self.RotationTypeString in MOT.RotationTypes.keys():
                     MOT.RotationTypes[self.RotationTypeString].append(self.name)
@@ -815,7 +814,7 @@ class ListHeader:
         self.POINTERS = []
         for i in range(0, self.numOffs):
             self.POINTERS.append(Pointer(f))
-            print (str(i) +"_"+self.POINTERS[i].motName)
+            if DEBUG: print (str(i) +"_"+self.POINTERS[i].motName)
 
 def read_mot():
     #"D:\\RER_MODS\\RETool\\RE2\\re_chunk_000\\natives\\x64\\sectionroot\\cutscene\\ev\\ev040\\ev040_s00\\chara\\pl1000\\pl1000.motlist.85"
@@ -832,7 +831,7 @@ def read_mot():
         ##11 is loop
 
         MOT_LIST = []
-        print(list_header.POINTERS[0].motName)
+        if DEBUG: print(list_header.POINTERS[0].motName)
         f.seek(list_header.POINTERS[0].Address)
         MOT_LIST.append(Mot(f, MOT_LIST))
 
@@ -855,9 +854,9 @@ def import_mot(ptr, filepath):
     with open(filepath,"rb") as f:
         list_header = ListHeader(f)
         MOT_LIST = []
-        print(list_header.POINTERS[0].motName)
         f.seek(list_header.POINTERS[0].Address)
         MOT_LIST.append(Mot(f, MOT_LIST))
+        print("Importing: "+list_header.POINTERS[1].motName)
         f.seek(ptr.Address)
         MOT_LIST.append(Mot(f, MOT_LIST))
         re_import_mot.import_mot(MOT_LIST[1])
