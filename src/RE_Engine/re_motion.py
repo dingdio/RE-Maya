@@ -434,7 +434,7 @@ class FrameRot:
                 self.RotationX = (MaxUnpackX * ((RotationData >> 00) & 0x1F) * (1.0 / 0x1F)) + MinUnpackX;
                 self.RotationY = (MaxUnpackY * ((RotationData >> 05) & 0x1F) * (1.0 / 0x1F)) + MinUnpackY;
                 self.RotationZ = (MaxUnpackZ * ((RotationData >> 10) & 0x1F) * (1.0 / 0x1F)) + MinUnpackZ;
-                self.RotationW = (MaxUnpackW * 0.0) + MinUnpackW #wRot(self);
+                self.RotationW = wRot(self);
                 return;
 
             #BiLinearSCQuat3_16bitController in revilmax
@@ -488,7 +488,7 @@ class FrameRot:
                 self.RotationX = (MaxUnpackX * ((RotationData >> 00) & 0x3FF) / 1023.0) + MinUnpackX;
                 self.RotationY = (MaxUnpackY * ((RotationData >> 10) & 0x3FF) / 1023.0) + MinUnpackY;
                 self.RotationZ = (MaxUnpackZ * ((RotationData >> 20) & 0x3FF) / 1023.0) + MinUnpackZ;
-                self.RotationW = (MaxUnpackW * 0.0) + MinUnpackW
+                self.RotationW = wRot(self);
                 return;
 
             if (flagsEval == 0x31000 or flagsEval == 0x41000):             #          //LoadQuaternionsXAxis
@@ -555,7 +555,7 @@ class FrameRot:
                 self.RotationX = (MaxUnpackX * ((RotationData >> 00) & 0x1FFFFF) / 2097151.0) + MinUnpackX;
                 self.RotationY = (MaxUnpackY * ((RotationData >> 21) & 0x1FFFFF) / 2097151.0) + MinUnpackY;
                 self.RotationZ = (MaxUnpackZ * ((RotationData >> 42) & 0x1FFFFF) / 2097151.0) + MinUnpackZ;
-                self.RotationW = (MaxUnpackW * 0.0) + MinUnpackW #wRot(self);
+                self.RotationW = wRot(self);
                 return;
 
             print ("uh oh")
