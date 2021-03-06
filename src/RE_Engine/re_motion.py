@@ -434,7 +434,7 @@ class FrameRot:
                 self.RotationX = (MaxUnpackX * ((RotationData >> 00) & 0x1F) * (1.0 / 0x1F)) + MinUnpackX;
                 self.RotationY = (MaxUnpackY * ((RotationData >> 05) & 0x1F) * (1.0 / 0x1F)) + MinUnpackY;
                 self.RotationZ = (MaxUnpackZ * ((RotationData >> 10) & 0x1F) * (1.0 / 0x1F)) + MinUnpackZ;
-                self.RotationW = wRot(self);
+                self.RotationW = (MaxUnpackW * 0.0) + MinUnpackW #wRot(self);
                 return;
 
             #BiLinearSCQuat3_16bitController in revilmax
@@ -473,17 +473,22 @@ class FrameRot:
                     RotationDataX = readUByte(f)#ubyte RotationDataX, RotationDataY, RotationDataZ; #if (SKIP) return;
                     RotationDataY = readUByte(f)
                     RotationDataZ = readUByte(f)
-                    self.RotationX = (MaxUnpackX * (RotationDataX * 0.000015259022)) + MinUnpackX;
-                    self.RotationY = (MaxUnpackY * (RotationDataY * 0.000015259022)) + MinUnpackY;
-                    self.RotationZ = (MaxUnpackZ * (RotationDataZ * 0.000015259022)) + MinUnpackZ;
+                    componentMultiplier = 1.0 / 0xff;
+                    self.RotationX = ((RotationDataX * componentMultiplier) * MaxUnpackX) + MinUnpackX#(MaxUnpackX * (RotationDataX * 0.000015259022)) + MinUnpackX;
+                    self.RotationY = ((RotationDataY * componentMultiplier) * MaxUnpackY) + MinUnpackY#(MaxUnpackY * (RotationDataY * 0.000015259022)) + MinUnpackY;
+                    self.RotationZ = ((RotationDataZ * componentMultiplier) * MaxUnpackZ) + MinUnpackZ#(MaxUnpackZ * (RotationDataZ * 0.000015259022)) + MinUnpackZ;
+                    self.RotationX = self.RotationX*1.0
+                    self.RotationY = self.RotationY*1.0
+                    self.RotationZ = self.RotationZ*1.0
                     self.RotationW = wRot(self);
                     return;
             if (flagsEval == 0x40000 or (MOT_HEADER.version == 65 and flagsEval == 0x30000)):             #          //LoadQuaternions10Bit RE3 #TEETH ROT
                 RotationData = readU32(f) #uint32  #if (SKIP) return;
+                componentMultiplier = 1.0 / 0x3FF;
                 self.RotationX = (MaxUnpackX * ((RotationData >> 00) & 0x3FF) / 1023.0) + MinUnpackX;
                 self.RotationY = (MaxUnpackY * ((RotationData >> 10) & 0x3FF) / 1023.0) + MinUnpackY;
                 self.RotationZ = (MaxUnpackZ * ((RotationData >> 20) & 0x3FF) / 1023.0) + MinUnpackZ;
-                self.RotationW = wRot(self);
+                self.RotationW = (MaxUnpackW * 0.0) + MinUnpackW
                 return;
 
             if (flagsEval == 0x31000 or flagsEval == 0x41000):             #          //LoadQuaternionsXAxis
@@ -550,7 +555,7 @@ class FrameRot:
                 self.RotationX = (MaxUnpackX * ((RotationData >> 00) & 0x1FFFFF) / 2097151.0) + MinUnpackX;
                 self.RotationY = (MaxUnpackY * ((RotationData >> 21) & 0x1FFFFF) / 2097151.0) + MinUnpackY;
                 self.RotationZ = (MaxUnpackZ * ((RotationData >> 42) & 0x1FFFFF) / 2097151.0) + MinUnpackZ;
-                self.RotationW = wRot(self);
+                self.RotationW = (MaxUnpackW * 0.0) + MinUnpackW #wRot(self);
                 return;
 
             print ("uh oh")
