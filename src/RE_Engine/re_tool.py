@@ -16,7 +16,7 @@ reload(re_motion)
 import re_motion_camera
 reload(re_motion_camera)
 
-TOOL_VERSION = 'v0.1'
+TOOL_VERSION = 'v0.1 Preview'
 
 import logging
 logging.basicConfig()
@@ -42,7 +42,7 @@ else:
 #from vendor.Qt.QtCore import QSettings
 
 class RE_Manager(QtWidgets.QWidget):
-    def __init__(self, dock=False): 
+    def __init__(self, dock=False):
         ## GET SETTINGS
         self.settings = settings.get()
         if not self.settings.DEFAULT_DIR_KEY:
@@ -50,7 +50,7 @@ class RE_Manager(QtWidgets.QWidget):
         else:
             self.lastDir = self.settings.DEFAULT_DIR_KEY
 
-            
+
         if dock:
             parent = getDock()
         else:
@@ -71,7 +71,7 @@ class RE_Manager(QtWidgets.QWidget):
         self.parent = parent
         parent.setWindowTitle("RE Engine Motion Tool "+TOOL_VERSION)
 
-        
+
         self.recentFileActs = []
 
         for i in range(self.settings.RECENT_FILES_MAX):
@@ -93,7 +93,7 @@ class RE_Manager(QtWidgets.QWidget):
         if not dock:
             parent.show()
 
-    
+
 
     def recent_files_update(self):
         _translate = QtCore.QCoreApplication.translate
@@ -141,15 +141,18 @@ class RE_Manager(QtWidgets.QWidget):
         # self.pushButtonSaveSettings.clicked.connect(self.saveSettingsClicked)
         # self.btnExportCutscene.clicked.connect(self.exportCutsceneClicked)
         # self.toolButtonDepoSelect.clicked.connect(self.depoSelectClicked)
-    
+
         self.animLoadSelectedBtn.clicked.connect(self.animLoadSelected)
-        
+
         # self.loadAnimBtn.clicked.connect(self.importAnimsTree)
         # self.loadAllBtn.clicked.connect(self.importAnimsTree)
         # self.actorListWidget.clicked.connect(self.getActorValue)
         self.injectAnimBtn.clicked.connect(self.injectAnimFun)
+        self.loadSequencerBtn.clicked.connect(self.loadSequencerFun)
+        self.timeEditorBtn.clicked.connect(self.timeEditorFun)
+        self.renameBonesBtn.clicked.connect(self.renameBonesFun)
         self.actionAbout.triggered.connect(self.aboutFun)
-        
+
 
     def setupUi(self, re_manager):
         re_manager.setObjectName("re_manager")
@@ -265,7 +268,7 @@ class RE_Manager(QtWidgets.QWidget):
             mel.eval("gotoBindPose;")
             re_motion.import_mot(SetEntry, self.loadedAnimSet.filepath)
             #anims.import_w3_animation2(SetEntry.animation, scene_actor, type = "animation")
-    
+
     def getValue(self, val):
         print(val.data())
         print(val.row())
@@ -286,7 +289,7 @@ class RE_Manager(QtWidgets.QWidget):
         #animSet object is just animation set
         #read all the animations???
         #populate the tree with that object
-        
+
 
         #animsTreeView
         treeModel = QtGui.QStandardItemModel()
@@ -311,6 +314,8 @@ class RE_Manager(QtWidgets.QWidget):
         self.animsTreeView.clicked.connect(self.getValue)
 
     def injectAnimFun(self):
+        cmds.confirmDialog( title='Inject Animation', message='work in progress', button=['OK'], defaultButton='OK', cancelButton='No', dismissString='No' )
+        return
         SetEntry = self.getSelectedAnim(self.animsTreeView, self.loadedAnimSet)
         if self.loadedAnimSet.header.version == 13 or self.loadedAnimSet.header.version == 14:
             print("Inject mcam", SetEntry.motName)
@@ -318,6 +323,16 @@ class RE_Manager(QtWidgets.QWidget):
         else:
             print("Inject mot", SetEntry.motName)
             #re_motion.import_mot(SetEntry, self.loadedAnimSet.filepath)
+    def loadSequencerFun(self):
+        cmds.confirmDialog( title='WIP', message='work in progress', button=['OK'], defaultButton='OK', cancelButton='No', dismissString='No' )
+        return
+    def timeEditorFun(self):
+        cmds.confirmDialog( title='WIP', message='work in progress', button=['OK'], defaultButton='OK', cancelButton='No', dismissString='No' )
+        return
+    def renameBonesFun(self):
+        cmds.confirmDialog( title='WIP', message='work in progress', button=['OK'], defaultButton='OK', cancelButton='No', dismissString='No' )
+        return
+
     def aboutFun(self):
         cmds.confirmDialog( title='About', message='RE-Maya '+TOOL_VERSION+'\nhttps://github.com/dingdio/RE-Maya', button=['Close'], defaultButton='Close', cancelButton='No', dismissString='No' )
 
