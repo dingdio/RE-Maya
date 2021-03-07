@@ -13,7 +13,7 @@ def import_mcam(mcam):
     cmds.currentUnit( time='ntscf' )
     name = mcam.name ##"re_camera"
     if not cmds.objExists(name):
-        obj = cmds.camera()
+        obj = cmds.camera(ar = 1.78, dfg= True, dr=True)
         if cmds.objExists(obj[0]) and cmds.objExists(obj[1]):
             cmds.rename(obj[1], name+"Shape")
             cmds.rename(obj[0], name)
@@ -44,9 +44,7 @@ def import_mcam(mcam):
             pass
         zoomFrames = []
         for frame in mcam.zoom.ZOOM_DATA:
-            #zoomFrames.append((100 - frame.x*100)*2)
-            zoomFrames.append( 100 - (frame.x *60) ) 
-            #zoomFrames.append(frame.x *40)
+            zoomFrames.append( 100 - (frame.x *60) )
 
         #create re_camera if not exist??
         fill_keys(name, "fl", KEYS, zoomFrames)

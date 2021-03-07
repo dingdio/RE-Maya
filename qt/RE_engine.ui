@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
-    <height>530</height>
+    <width>702</width>
+    <height>722</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,16 +17,68 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QTreeView" name="animsTreeView"/>
+    </item>
+    <item>
      <widget class="QPushButton" name="animLoadSelectedBtn">
       <property name="text">
        <string>Load Selected</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QTreeView" name="animsTreeView"/>
+    <item>
+     <widget class="QPushButton" name="timeEditorBtn">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Load All into Time Editor (WIP)</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="loadSequencerBtn">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Load Mcamlist into Camera Sequencer (WIP)</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Utils</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="renameBonesBtn">
+         <property name="toolTip">
+          <string>Renames selected bones from the RE2 naming scheme to the DMC5 one, or vice versa.</string>
+         </property>
+         <property name="text">
+          <string>RE2 &lt;--&gt; DMC5</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="injectAnimBtn">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="toolTip">
+          <string>Creates a new motlist with the selected animation replaced by the scene timeline.</string>
+         </property>
+         <property name="text">
+          <string>Inject Animation (WIP)</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -35,7 +87,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>630</width>
+     <width>702</width>
      <height>21</height>
     </rect>
    </property>

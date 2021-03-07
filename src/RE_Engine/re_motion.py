@@ -21,6 +21,8 @@ from bin_helpers import (
                         skipToNextLine,
                         wRot)
 
+from re_types import ( ListHeader )
+
 bIsMotFile = False
 DEBUG = False
 boneHeadersIdx = 0 #1st mot file with bone list
@@ -119,18 +121,6 @@ def get_scale_type(f, MOT):
     if flagsEval == 0x22000: return "LoadVector3sYAxis16Bit"
     if flagsEval == 0x23000: return "LoadVector3sZAxis16Bit"
     return "Unknown Type"
-
-class Pointer:
-    def __init__(self,f):
-        self.Address = readU64(f)
-
-        ##get string and return
-        pos = f.tell()
-        self.motName = read_wstring(f, address= self.Address + 116)
-        f.seek(pos)
-
-        if self.Address == 0:
-            self.motName = ""
 
 class BoneHeader:
     def __init__(self,f, start):
@@ -794,27 +784,6 @@ class Mlist:
         self.filepath = filepath
         self.header = header
 
-class ListHeader:
-    def __init__(self,f):
-        self.version = readU32(f)
-        self.ID = f.read(4).decode("utf-8-sig")
-        self.padding = readU64(f)
-        self.pointersOffs = readU64(f)# uint64  pointersOffs <format=hex>; // AssetsPointer in Tyrant
-        self.colOffs = readU64(f)# uint64  colOffs <format=hex>; // UnkPointer
-        self.motListNameOffs = readU64(f)# uint64  motListNameOffs <format=hex>; //NamePointer
-        if self.version != 60:
-            self.padding = readU64(f) #uint64  padding; //UnkPointer01
-        self.numOffs = readU32(f) # AssetCount
-        f.seek(self.motListNameOffs)
-        self.motListName = read_wstring(f)
-        #pos = f.tell()
-
-		#--gather pointers and pointer names:
-        f.seek(self.pointersOffs)
-        self.POINTERS = []
-        for i in range(0, self.numOffs):
-            self.POINTERS.append(Pointer(f))
-            if DEBUG: print (str(i) +"_"+self.POINTERS[i].motName)
 
 def read_mot():
     #"D:\\RER_MODS\\RETool\\RE2\\re_chunk_000\\natives\\x64\\sectionroot\\cutscene\\ev\\ev040\\ev040_s00\\chara\\pl1000\\pl1000.motlist.85"
